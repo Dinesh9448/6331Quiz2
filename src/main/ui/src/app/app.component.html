@@ -66,51 +66,48 @@
 	<div class="example-table-container">
 
 	  <table mat-table [dataSource]="data" class="example-table"
-			 matSort matSortActive="time" matSortDisableClear matSortDirection="desc">
+			 matSort matSortActive="year" matSortDisableClear matSortDirection="desc">
 		<!-- Number Column -->
-		<ng-container matColumnDef="latitude">
+		<ng-container matColumnDef="year">
 		  <th mat-header-cell *matHeaderCellDef>year</th>
 		  <td mat-cell *matCellDef="let row">{{row.year}}</td>
 		</ng-container>
 
 		<!-- Title Column -->
-		<ng-container matColumnDef="longitude">
+		<ng-container matColumnDef="state">
 		  <th mat-header-cell *matHeaderCellDef>state</th>
 		  <td mat-cell *matCellDef="let row">{{row.state}}</td>
 		</ng-container>
-
+		<ng-container matColumnDef="statePo">
+			<th mat-header-cell *matHeaderCellDef>statePo</th>
+			<td mat-cell *matCellDef="let row">{{row.statePo}}</td>
+		  </ng-container>
 		<!-- State Column -->
-		<ng-container matColumnDef="depth">
+		<ng-container matColumnDef="candidate">
 		  <th mat-header-cell *matHeaderCellDef>candidate</th>
 		  <td mat-cell *matCellDef="let row">{{row.candidate}}</td>
 		</ng-container>
 
-		<ng-container matColumnDef="mag">
+		<ng-container matColumnDef="partyDetailed">
 			<th mat-header-cell *matHeaderCellDef>partyDetailed</th>
 			<td mat-cell *matCellDef="let row">{{row.partyDetailed}}</td>
 		  </ng-container>
 
-		  <ng-container matColumnDef="magType">
+		  <ng-container matColumnDef="candidateVotes">
 			<th mat-header-cell *matHeaderCellDef>candidateVotes</th>
 			<td mat-cell *matCellDef="let row">{{row.candidateVotes}}</td>
 		  </ng-container>
 
-      <ng-container matColumnDef="magType">
+      <ng-container matColumnDef="totalVotes">
         <th mat-header-cell *matHeaderCellDef>totalVotes</th>
         <td mat-cell *matCellDef="let row">{{row.totalVotes}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="magType">
+      <ng-container matColumnDef="partySimplified">
         <th mat-header-cell *matHeaderCellDef>partySimplified</th>
         <td mat-cell *matCellDef="let row">{{row.partySimplified}}</td>
       </ng-container>
-		<!-- Created Column -->
-		<ng-container matColumnDef="time">
-		  <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
-			Time
-		  </th>
-		  <td mat-cell *matCellDef="let row">{{row.time | date}}</td>
-		</ng-container>
+		
 
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -123,24 +120,7 @@
   </div>
   <br>
   <br>
-  <form [formGroup]="myForm" (ngSubmit)="submit()">
-
-    <div class="form-group">
-        <label for="file">EarthQuake CSV File Upload</label>
-        <input
-            formControlName="file"
-            id="file"
-            type="file"
-            class="form-control"
-            (change)="onFileChange($event)">
-        <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
-            <div *ngIf="f.file.errors.required">File is required.</div>
-        </div>
-    </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-
-</form>
-
+ 
 <br>
 <br>
 <div class="card" *ngFor="let content of queryStatistics; let i = index">

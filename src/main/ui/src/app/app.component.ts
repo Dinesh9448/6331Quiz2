@@ -19,7 +19,7 @@ export class AppComponent implements AfterViewInit {
   queryStatistics: Statistics[] = [];
   filterId: number = 0;
 
-  private url: string = 'http://localhost:8080/president-elect?';
+  private url: string = 'president-elect?';
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -50,10 +50,10 @@ export class AppComponent implements AfterViewInit {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isRateLimitReached = false;
-          this.resultsLength = data.earthQuakes.totalElements;
+          this.resultsLength = data.presidentElects.totalElements;
           this.queryStatistics = data.queryStatistics;
 
-          return data.earthQuakes.content;
+          return data.presidentElects.content;
         }),
         catchError(() => {
           this.isLoadingResults = false;
@@ -68,7 +68,7 @@ export class AppComponent implements AfterViewInit {
     console.log(`not yet implemented` + filterId);
     this.filterId = filterId;
     if(0==filterId){
-      this.url = 'http://localhost:8080/earthquake?';
+      this.url = 'president-elect?';
       this.queryStatistics = [];
       this.ngAfterViewInit();
     }
@@ -86,44 +86,6 @@ export class AppComponent implements AfterViewInit {
     this.data = [];
     this.queryStatistics = [];
     this.ngAfterViewInit();
-  }
-
-  distanceFrom(latitude:string, longitude:string, distance:string): void {
-    this.url = `http://localhost:8080/earthquake/findEarthQuakesByDistance?latitude=${latitude}&longitude=${longitude}&distance=${distance}&`;
-    this.exampleDatabase = null;
-    this.data = [];
-    this.queryStatistics = [];
-    this.paginator.pageIndex = 0;
-
-    this.exampleDatabase = new ExampleHttpDatabase(this._httpClient, this.url);
-
-    // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.exampleDatabase!.getEarthQuakeDetails(
-            this.sort.active, this.sort.direction, this.paginator.pageIndex);
-        }),
-        map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = data.page.totalElements;
-          //this.queryStatistics = data.queryStatistics;
-
-          return data._embedded.president_elect;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          // Catch if the  API has reached its rate limit. Return empty data.
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(data => this.data = data);
   }
 
   myForm = new FormGroup({
@@ -164,7 +126,7 @@ export interface EarthQuakeAPI{
   page: PageDtl;
 }
 export interface EarthQuakeArray{
-  president_elect: PresidentElect[];
+  presidentElects: PresidentElect[];
   queryStatistics: Statistics[];
 }
 
@@ -192,7 +154,7 @@ export interface PresidentElect{
 }
 
 export interface EarthQuakeContent {
-  earthQuakes: EarthQuakeBody;
+  presidentElects: EarthQuakeBody;
   queryStatistics: Statistics[];
 }
 
