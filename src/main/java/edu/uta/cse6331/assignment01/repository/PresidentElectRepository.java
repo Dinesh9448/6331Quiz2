@@ -14,5 +14,6 @@ import java.math.BigInteger;
 public interface PresidentElectRepository extends JpaRepository<PresidentElect, BigInteger> {
 
     public Page<PresidentElect> findAll(Pageable pageable);
+    public Page<PresidentElect> findByYearEqualsAndStatePoEquals(Pageable pageable, BigInteger year, String statePo);
 
 }

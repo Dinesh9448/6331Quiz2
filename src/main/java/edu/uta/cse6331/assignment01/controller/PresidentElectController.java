@@ -5,6 +5,7 @@ import edu.uta.cse6331.assignment01.model.PresidentElect;
 import edu.uta.cse6331.assignment01.model.QueryStatistic;
 import edu.uta.cse6331.assignment01.repository.PresidentElectRepository;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.stat.QueryStatistics;
 import org.hibernate.stat.Statistics;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 @RepositoryRestController
 @RequestMapping("president-elect")
 @CrossOrigin
+@Slf4j
 public class PresidentElectController {
 
     private static final String COMMA_DELIMITER = ",";
@@ -44,6 +47,18 @@ public class PresidentElectController {
         clearStatistics();
         Pageable pageable = getPageable(page, sort);
         Page<PresidentElect> earthQuakePage = presidentElectRepository.findAll(pageable);
+        return getResponseEntity(earthQuakePage);
+    }
+
+    @GetMapping("/findByYearEqualsAndStatePoEquals")
+    @Transactional
+    public @ResponseBody
+    ResponseEntity<?> findByYearEqualsAndStatePoEquals(@RequestParam("page") int page, @RequestParam("sort") String sort,
+                                        @RequestParam("year") BigInteger year, @RequestParam("statePo") String statePo){
+        clearStatistics();
+        Pageable pageable = getPageable(page, sort);
+        log.info("Year: " + year);
+        Page<PresidentElect> earthQuakePage = presidentElectRepository.findByYearEqualsAndStatePoEquals(pageable, year, statePo);
         return getResponseEntity(earthQuakePage);
     }
 

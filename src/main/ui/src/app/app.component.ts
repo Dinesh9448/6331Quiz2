@@ -73,8 +73,8 @@ export class AppComponent implements AfterViewInit {
       this.ngAfterViewInit();
     }
   }
-  magGreater(mag: number): void {
-    this.url = `http://localhost:8080/earthquake/findByMagGreaterThanEqual?mag=${mag}&`;
+  byYearAndState(year: string, statePO: string): void {
+    this.url = `/president-elect/findByYearEqualsAndStatePoEquals?year=${year}&statePo=${statePO}&`;
     this.exampleDatabase = null;
     this.data = [];
     this.queryStatistics = [];
