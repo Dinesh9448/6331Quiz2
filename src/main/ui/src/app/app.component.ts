@@ -80,6 +80,13 @@ export class AppComponent implements AfterViewInit {
     this.queryStatistics = [];
     this.ngAfterViewInit();
   }
+  byCandidateName(name: string): void {
+    this.url = `/president-elect/findByCandidateLike?name=${name}&`;
+    this.exampleDatabase = null;
+    this.data = [];
+    this.queryStatistics = [];
+    this.ngAfterViewInit();
+  }
 
   byCandidateVotesAndYears(startVote: string, endVote: string, startYear: string, endYear: string): void {
     this.url = `/president-elect/findByCandidateVotesBetweenAndYearBetween?startVotes=${startVote}&endVotes=${endVote}&startYear=${startYear}&endYears=${endYear}&`;

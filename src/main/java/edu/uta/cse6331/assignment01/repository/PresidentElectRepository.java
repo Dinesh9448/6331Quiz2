@@ -16,5 +16,6 @@ public interface PresidentElectRepository extends JpaRepository<PresidentElect, 
     public Page<PresidentElect> findAll(Pageable pageable);
     public Page<PresidentElect> findByYearEqualsAndStatePoEquals(Pageable pageable, BigInteger year, String statePo);
     public Page<PresidentElect> findByCandidateVotesBetweenAndYearBetween(Pageable pageable, BigInteger startVotes, BigInteger endVotes, BigInteger startYear, BigInteger endYears);
+    public Page<PresidentElect> findByCandidateContaining(Pageable pageable, String name);
 
 }
