@@ -6,4 +6,5 @@ import lombok.Data;
 public class QueryStatistic {
     String query;
     long executionTime;
+    long executionCount;
 }

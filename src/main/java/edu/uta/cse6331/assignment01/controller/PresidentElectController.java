@@ -4,6 +4,7 @@ import edu.uta.cse6331.assignment01.model.PresidentElectBody;
 import edu.uta.cse6331.assignment01.model.PresidentElect;
 import edu.uta.cse6331.assignment01.model.QueryStatistic;
 import edu.uta.cse6331.assignment01.repository.PresidentElectRepository;
+import edu.uta.cse6331.assignment01.service.PresidentElectService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
@@ -37,17 +38,18 @@ public class PresidentElectController {
     private static final String COMMA_DELIMITER = ",";
     @Autowired
     @Setter
-    private PresidentElectRepository presidentElectRepository;
+    private PresidentElectService presidentElectService;
 
     @Autowired @Setter private EntityManager entityManager;
 
     @GetMapping
     @Transactional
     public @ResponseBody
-    ResponseEntity<?> findAll(@RequestParam("page") int page, @RequestParam("sort") String sort){
+    ResponseEntity<?> findAll(@RequestParam("page") int page, @RequestParam("sort") String sort,
+                              @RequestParam(value = "cacheInd", defaultValue = "false", required = false) boolean cacheInd){
         clearStatistics();
         Pageable pageable = getPageable(page, sort);
-        Page<PresidentElect> earthQuakePage = presidentElectRepository.findAll(pageable);
+        Page<PresidentElect> earthQuakePage = cacheInd ? presidentElectService.findAllCacheable(pageable) : presidentElectService.findAll(pageable);
         return getResponseEntity(earthQuakePage);
     }
 
@@ -55,14 +57,17 @@ public class PresidentElectController {
     @Transactional
     public @ResponseBody
     ResponseEntity<?> findByYearEqualsAndStatePoEquals(@RequestParam("page") int page, @RequestParam("sort") String sort,
-                                        @RequestParam("year") BigInteger year, @RequestParam("statePo") String statePo, @RequestParam(value = "times", defaultValue = "1", required = false) int times){
+                                        @RequestParam("year") BigInteger year, @RequestParam("statePo") String statePo,
+                                                       @RequestParam(value = "times", defaultValue = "1", required = false) int times,
+                                                       @RequestParam(value = "cacheInd", defaultValue = "false", required = false) boolean cacheInd){
         clearStatistics();
         Pageable pageable = getPageable(page, sort);
         log.info("Year: " + year);
         Page<PresidentElect> earthQuakePage = null;
         for(int i=1; i <= times; i++) {
             earthQuakePage =
-                    presidentElectRepository.findByYearEqualsAndStatePoEquals(pageable, year, statePo);
+                    cacheInd ? presidentElectService.findByYearEqualsAndStatePoEqualsCacheable(pageable, year, statePo):
+                        presidentElectService.findByYearEqualsAndStatePoEquals(pageable, year, statePo);
         };
         return getResponseEntity(earthQuakePage);
     }
@@ -71,13 +76,15 @@ public class PresidentElectController {
     @Transactional
     public @ResponseBody
     ResponseEntity<?> findByCandidateLike(@RequestParam("page") int page, @RequestParam("sort") String sort,
-                                                       @RequestParam("name") String name, @RequestParam(value = "times", defaultValue = "1", required = false) int times){
+                                                       @RequestParam("name") String name,
+                                          @RequestParam(value = "times", defaultValue = "1", required = false) int times,
+                                          @RequestParam(value = "cacheInd", defaultValue = "false", required = false) boolean cacheInd){
         clearStatistics();
         Pageable pageable = getPageable(page, sort);
         Page<PresidentElect> earthQuakePage = null;
         for(int i=1; i <= times; i++) {
             earthQuakePage =
-                    presidentElectRepository.findByCandidateContaining(pageable, name);
+                    cacheInd ? presidentElectService.findByCandidateContainingCacheable(pageable, name) : presidentElectService.findByCandidateContaining(pageable, name);
         };
         return getResponseEntity(earthQuakePage);
     }
@@ -87,13 +94,15 @@ public class PresidentElectController {
     public @ResponseBody
     ResponseEntity<?> findByCandidateVotesBetweenAndYearBetween(@RequestParam("page") int page, @RequestParam("sort") String sort,
                                                                 @RequestParam("startVotes") BigInteger startVotes, @RequestParam("endVotes") BigInteger endVotes, @RequestParam("startYear") BigInteger startYear, @RequestParam("endYears") BigInteger endYears,
-                                                                @RequestParam(value = "times", defaultValue = "1", required = false) int times){
+                                                                @RequestParam(value = "times", defaultValue = "1", required = false) int times,
+                                                                @RequestParam(value = "cacheInd", defaultValue = "false", required = false) boolean cacheInd){
         clearStatistics();
         Pageable pageable = getPageable(page, sort);
         Page<PresidentElect> earthQuakePage = null;
         for(int i=1; i <= times; i++) {
             earthQuakePage =
-                    presidentElectRepository.findByCandidateVotesBetweenAndYearBetween(pageable, startVotes, endVotes, startYear, endYears);
+                    cacheInd ? presidentElectService.findByCandidateVotesBetweenAndYearBetweenCacheable(pageable, startVotes, endVotes, startYear, endYears) :
+                            presidentElectService.findByCandidateVotesBetweenAndYearBetween(pageable, startVotes, endVotes, startYear, endYears) ;
         };
         return getResponseEntity(earthQuakePage);
     }
@@ -124,6 +133,7 @@ public class PresidentElectController {
             QueryStatistic queryStatistic = new QueryStatistic();
             queryStatistic.setQuery(qu);
             queryStatistic.setExecutionTime(queryStatistics.getExecutionTotalTime());
+            queryStatistic.setExecutionCount(queryStatistics.getExecutionCount());
             return queryStatistic;
         }).collect(Collectors.toList());
     }

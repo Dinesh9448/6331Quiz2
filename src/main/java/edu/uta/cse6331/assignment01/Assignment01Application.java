@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
+@EnableCaching
 public class Assignment01Application {
 
 	public static void main(String[] args) {

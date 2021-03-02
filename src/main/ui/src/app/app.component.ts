@@ -18,6 +18,7 @@ export class AppComponent implements AfterViewInit {
   data: PresidentElect[] = [];
   queryStatistics: Statistics[] = [];
   filterId: number = 0;
+  isCache: boolean = false;
 
   private url: string = 'president-elect?';
 
@@ -68,20 +69,20 @@ export class AppComponent implements AfterViewInit {
     console.log(`not yet implemented` + filterId);
     this.filterId = filterId;
     if(0==filterId){
-      this.url = 'president-elect?';
+      this.url = 'president-elect?cacheInd=${this.isCache}&';
       this.queryStatistics = [];
       this.ngAfterViewInit();
     }
   }
   byYearAndState(year: string, statePO: string, times: number): void {
-    this.url = `/president-elect/findByYearEqualsAndStatePoEquals?year=${year}&statePo=${statePO}&times=${times}&`;
+    this.url = `/president-elect/findByYearEqualsAndStatePoEquals?year=${year}&statePo=${statePO}&times=${times}&cacheInd=${this.isCache}&`;
     this.exampleDatabase = null;
     this.data = [];
     this.queryStatistics = [];
     this.ngAfterViewInit();
   }
   byCandidateName(name: string, times: number): void {
-    this.url = `/president-elect/findByCandidateLike?name=${name}&times=${times}&`;
+    this.url = `/president-elect/findByCandidateLike?name=${name}&times=${times}&cacheInd=${this.isCache}&`;
     this.exampleDatabase = null;
     this.data = [];
     this.queryStatistics = [];
@@ -89,7 +90,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   byCandidateVotesAndYears(startVote: string, endVote: string, startYear: string, endYear: string, times: number): void {
-    this.url = `/president-elect/findByCandidateVotesBetweenAndYearBetween?startVotes=${startVote}&endVotes=${endVote}&startYear=${startYear}&endYears=${endYear}&times=${times}&`;
+    this.url = `/president-elect/findByCandidateVotesBetweenAndYearBetween?startVotes=${startVote}&endVotes=${endVote}&startYear=${startYear}&endYears=${endYear}&times=${times}&cacheInd=${this.isCache}&`;
     this.exampleDatabase = null;
     this.data = [];
     this.queryStatistics = [];
@@ -141,6 +142,7 @@ export interface EarthQuakeArray{
 export interface Statistics{
   query: String;
   executionTime: number;
+  executionCount: number;
 }
 
 export interface PageDtl{

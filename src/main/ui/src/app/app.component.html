@@ -10,10 +10,14 @@
 				<select class="form-control" (change)="onSelected($event.target.value)">
 					<option value="0">- Display All -</option>
 					<option value="1">- ByYearAndStatePO -</option>
-          <option value="2">- ByCandidateVotesAndYears -</option>
-          <option value="3">- ByCandidateName -</option>
+					<option value="2">- ByCandidateVotesAndYears -</option>
+					<option value="3">- ByCandidateName -</option>
 				</select>
 			</div>
+      <div class="col-3">
+        <input class="form-check-input" id="checkbox" type="checkbox" name="Enable Cache" [(ngModel)]="isCache">
+        <label class="form-check-label" for="checkbox" class="">Cacheable </label>
+      </div>
 		</div>
 	</div>
 </div>
@@ -30,10 +34,10 @@
 						<input #StatePO mdbInput type="text" id="form1" class="form-control">
 						<label for="form1" class="">StatePO</label>
 					</div>
-          <div class="col-sm">
-            <input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
-            <label for="form1" class="">Query Execution Times</label>
-          </div>
+					<div class="col-sm">
+						<input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
+						<label for="form1" class="">Query Execution Times</label>
+					</div>
 					<div class="col-sm">
 						<button type="button" class="btn btn-primary"
 							(click)="byYearAndState(Year.value, StatePO.value, times.value)">Search</button>
@@ -50,42 +54,42 @@
 						<input #endVote mdbInput type="text" id="form1" class="form-control">
 						<label for="form1" class="">endVote </label>
 					</div>
-          <div class="col-sm">
-            <input #startYear mdbInput type="text" id="form1" class="form-control">
-            <label for="form1" class="">startYear </label>
-          </div>
-          <div class="col-sm">
-            <input #endYear mdbInput type="text" id="form1" class="form-control">
-            <label for="form1" class="">endYear </label>
-          </div>
-          <div class="col-sm">
-            <input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
-            <label for="form1" class="">Query Execution Times</label>
-          </div>
-          <div class="col-sm">
+					<div class="col-sm">
+						<input #startYear mdbInput type="text" id="form1" class="form-control">
+						<label for="form1" class="">startYear </label>
+					</div>
+					<div class="col-sm">
+						<input #endYear mdbInput type="text" id="form1" class="form-control">
+						<label for="form1" class="">endYear </label>
+					</div>
+					<div class="col-sm">
+						<input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
+						<label for="form1" class="">Query Execution Times</label>
+					</div>
+					<div class="col-sm">
 						<button type="button" class="btn btn-primary"
 							(click)="byCandidateVotesAndYears(startVote.value, endVote.value, startYear.value, endYear.value, times.value)">Search</button>
 					</div>
 
 				</div>
 			</div>
-      <div class="md-form" *ngIf="filterId == 3">
-        <div class="row">
-          <div class="col-sm">
-            <input #name mdbInput type="text" id="form1" class="form-control">
-            <label for="form1" class="">Name </label>
-          </div>
-          <div class="col-sm">
-            <input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
-            <label for="form1" class="">Query Execution Times</label>
-          </div>
-          <div class="col-sm">
-            <button type="button" class="btn btn-primary"
-                    (click)="byCandidateName(name.value, times.value)">Search</button>
-          </div>
+			<div class="md-form" *ngIf="filterId == 3">
+				<div class="row">
+					<div class="col-sm">
+						<input #name mdbInput type="text" id="form1" class="form-control">
+						<label for="form1" class="">Name </label>
+					</div>
+					<div class="col-sm">
+						<input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
+						<label for="form1" class="">Query Execution Times</label>
+					</div>
+					<div class="col-sm">
+						<button type="button" class="btn btn-primary"
+							(click)="byCandidateName(name.value, times.value)">Search</button>
+					</div>
 
-        </div>
-      </div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -167,7 +171,9 @@
 		<blockquote class="blockquote mb-0">
 			<p>{{content.query}}</p>
 			<footer class="blockquote-footer">Query Execution Time: <cite title="Source Title">{{content.executionTime}}
-					MilliSeconds</cite></footer>
+					MilliSeconds</cite>
+				<br>Query Execution count: <cite title="Source Title">{{content.executionCount}} MilliSeconds</cite>
+			</footer>
 		</blockquote>
 	</div>
 </div>
