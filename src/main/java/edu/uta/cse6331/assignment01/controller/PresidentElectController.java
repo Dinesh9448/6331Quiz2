@@ -24,6 +24,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /*@BasePathAwareController
 @RequestMapping("people")*/
@@ -54,11 +55,15 @@ public class PresidentElectController {
     @Transactional
     public @ResponseBody
     ResponseEntity<?> findByYearEqualsAndStatePoEquals(@RequestParam("page") int page, @RequestParam("sort") String sort,
-                                        @RequestParam("year") BigInteger year, @RequestParam("statePo") String statePo){
+                                        @RequestParam("year") BigInteger year, @RequestParam("statePo") String statePo, @RequestParam(value = "times", defaultValue = "1", required = false) int times){
         clearStatistics();
         Pageable pageable = getPageable(page, sort);
         log.info("Year: " + year);
-        Page<PresidentElect> earthQuakePage = presidentElectRepository.findByYearEqualsAndStatePoEquals(pageable, year, statePo);
+        Page<PresidentElect> earthQuakePage = null;
+        for(int i=1; i <= times; i++) {
+            earthQuakePage =
+                    presidentElectRepository.findByYearEqualsAndStatePoEquals(pageable, year, statePo);
+        };
         return getResponseEntity(earthQuakePage);
     }
 
@@ -66,10 +71,14 @@ public class PresidentElectController {
     @Transactional
     public @ResponseBody
     ResponseEntity<?> findByCandidateLike(@RequestParam("page") int page, @RequestParam("sort") String sort,
-                                                       @RequestParam("name") String name){
+                                                       @RequestParam("name") String name, @RequestParam(value = "times", defaultValue = "1", required = false) int times){
         clearStatistics();
         Pageable pageable = getPageable(page, sort);
-        Page<PresidentElect> earthQuakePage = presidentElectRepository.findByCandidateContaining(pageable, name);
+        Page<PresidentElect> earthQuakePage = null;
+        for(int i=1; i <= times; i++) {
+            earthQuakePage =
+                    presidentElectRepository.findByCandidateContaining(pageable, name);
+        };
         return getResponseEntity(earthQuakePage);
     }
 
@@ -77,10 +86,15 @@ public class PresidentElectController {
     @Transactional
     public @ResponseBody
     ResponseEntity<?> findByCandidateVotesBetweenAndYearBetween(@RequestParam("page") int page, @RequestParam("sort") String sort,
-                                                                @RequestParam("startVotes") BigInteger startVotes, @RequestParam("endVotes") BigInteger endVotes, @RequestParam("startYear") BigInteger startYear, @RequestParam("endYears") BigInteger endYears){
+                                                                @RequestParam("startVotes") BigInteger startVotes, @RequestParam("endVotes") BigInteger endVotes, @RequestParam("startYear") BigInteger startYear, @RequestParam("endYears") BigInteger endYears,
+                                                                @RequestParam(value = "times", defaultValue = "1", required = false) int times){
         clearStatistics();
         Pageable pageable = getPageable(page, sort);
-        Page<PresidentElect> earthQuakePage = presidentElectRepository.findByCandidateVotesBetweenAndYearBetween(pageable, startVotes, endVotes, startYear, endYears);
+        Page<PresidentElect> earthQuakePage = null;
+        for(int i=1; i <= times; i++) {
+            earthQuakePage =
+                    presidentElectRepository.findByCandidateVotesBetweenAndYearBetween(pageable, startVotes, endVotes, startYear, endYears);
+        };
         return getResponseEntity(earthQuakePage);
     }
 
@@ -109,7 +123,7 @@ public class PresidentElectController {
             QueryStatistics queryStatistics = statistics.getQueryStatistics(qu);
             QueryStatistic queryStatistic = new QueryStatistic();
             queryStatistic.setQuery(qu);
-            queryStatistic.setExecutionTime(queryStatistics.getExecutionAvgTime());
+            queryStatistic.setExecutionTime(queryStatistics.getExecutionTotalTime());
             return queryStatistic;
         }).collect(Collectors.toList());
     }

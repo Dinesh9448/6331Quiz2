@@ -30,9 +30,13 @@
 						<input #StatePO mdbInput type="text" id="form1" class="form-control">
 						<label for="form1" class="">StatePO</label>
 					</div>
+          <div class="col-sm">
+            <input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
+            <label for="form1" class="">Query Execution Times</label>
+          </div>
 					<div class="col-sm">
 						<button type="button" class="btn btn-primary"
-							(click)="byYearAndState(Year.value, StatePO.value)">Search</button>
+							(click)="byYearAndState(Year.value, StatePO.value, times.value)">Search</button>
 					</div>
 				</div>
 			</div>
@@ -55,8 +59,12 @@
             <label for="form1" class="">endYear </label>
           </div>
           <div class="col-sm">
+            <input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
+            <label for="form1" class="">Query Execution Times</label>
+          </div>
+          <div class="col-sm">
 						<button type="button" class="btn btn-primary"
-							(click)="byCandidateVotesAndYears(startVote.value, endVote.value, startYear.value, endYear.value)">Search</button>
+							(click)="byCandidateVotesAndYears(startVote.value, endVote.value, startYear.value, endYear.value, times.value)">Search</button>
 					</div>
 
 				</div>
@@ -68,8 +76,12 @@
             <label for="form1" class="">Name </label>
           </div>
           <div class="col-sm">
+            <input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
+            <label for="form1" class="">Query Execution Times</label>
+          </div>
+          <div class="col-sm">
             <button type="button" class="btn btn-primary"
-                    (click)="byCandidateName(name.value)">Search</button>
+                    (click)="byCandidateName(name.value, times.value)">Search</button>
           </div>
 
         </div>

@@ -73,23 +73,23 @@ export class AppComponent implements AfterViewInit {
       this.ngAfterViewInit();
     }
   }
-  byYearAndState(year: string, statePO: string): void {
-    this.url = `/president-elect/findByYearEqualsAndStatePoEquals?year=${year}&statePo=${statePO}&`;
+  byYearAndState(year: string, statePO: string, times: number): void {
+    this.url = `/president-elect/findByYearEqualsAndStatePoEquals?year=${year}&statePo=${statePO}&times=${times}&`;
     this.exampleDatabase = null;
     this.data = [];
     this.queryStatistics = [];
     this.ngAfterViewInit();
   }
-  byCandidateName(name: string): void {
-    this.url = `/president-elect/findByCandidateLike?name=${name}&`;
+  byCandidateName(name: string, times: number): void {
+    this.url = `/president-elect/findByCandidateLike?name=${name}&times=${times}&`;
     this.exampleDatabase = null;
     this.data = [];
     this.queryStatistics = [];
     this.ngAfterViewInit();
   }
 
-  byCandidateVotesAndYears(startVote: string, endVote: string, startYear: string, endYear: string): void {
-    this.url = `/president-elect/findByCandidateVotesBetweenAndYearBetween?startVotes=${startVote}&endVotes=${endVote}&startYear=${startYear}&endYears=${endYear}&`;
+  byCandidateVotesAndYears(startVote: string, endVote: string, startYear: string, endYear: string, times: number): void {
+    this.url = `/president-elect/findByCandidateVotesBetweenAndYearBetween?startVotes=${startVote}&endVotes=${endVote}&startYear=${startYear}&endYears=${endYear}&times=${times}&`;
     this.exampleDatabase = null;
     this.data = [];
     this.queryStatistics = [];
