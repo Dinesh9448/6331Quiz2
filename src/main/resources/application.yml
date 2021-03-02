@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://cse9448.database.windows.net:1433;database=cse6331
+    username: admin01@cse9448
+    password: Password01
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        ddl-auto: update
+        generate_statistics: true
+    hibernate:
+      ddl-auto: none
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
