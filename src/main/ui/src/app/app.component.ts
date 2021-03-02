@@ -80,8 +80,9 @@ export class AppComponent implements AfterViewInit {
     this.queryStatistics = [];
     this.ngAfterViewInit();
   }
-  magAndTime(minMag: string, maxMag:string, minTime:string, maxTime:string): void {
-    this.url = `http://localhost:8080/earthquake/findByMagBetweenAndAndTimeBetween?startMag=${minMag}&endMag=${maxMag}&startDate=${minTime}T00:00:00.000Z&endDate=${maxTime}T00:00:00.000Z&`;
+
+  byCandidateVotesAndYears(startVote: string, endVote: string, startYear: string, endYear: string): void {
+    this.url = `/president-elect/findByCandidateVotesBetweenAndYearBetween?startVotes=${startVote}&endVotes=${endVote}&startYear=${startYear}&endYears=${endYear}&`;
     this.exampleDatabase = null;
     this.data = [];
     this.queryStatistics = [];

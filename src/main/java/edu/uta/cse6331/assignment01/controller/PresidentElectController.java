@@ -62,6 +62,17 @@ public class PresidentElectController {
         return getResponseEntity(earthQuakePage);
     }
 
+    @GetMapping("/findByCandidateVotesBetweenAndYearBetween")
+    @Transactional
+    public @ResponseBody
+    ResponseEntity<?> findByCandidateVotesBetweenAndYearBetween(@RequestParam("page") int page, @RequestParam("sort") String sort,
+                                                       @RequestParam("startVotes") BigInteger startVotes, @RequestParam("endVotes") BigInteger endVotes, @RequestParam("startYear") BigInteger startYear, @RequestParam("endYears") BigInteger endYears){
+        clearStatistics();
+        Pageable pageable = getPageable(page, sort);
+        Page<PresidentElect> earthQuakePage = presidentElectRepository.findByCandidateVotesBetweenAndYearBetween(pageable, startVotes, endVotes, startYear, endYears);
+        return getResponseEntity(earthQuakePage);
+    }
+
     private void clearStatistics() {
         Session session = entityManager.unwrap(Session.class);
         Statistics statistics = session.getSessionFactory().getStatistics();

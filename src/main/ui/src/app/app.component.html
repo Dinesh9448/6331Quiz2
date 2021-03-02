@@ -9,7 +9,8 @@
 			<div class="col-3">
 				<select class="form-control" (change)="onSelected($event.target.value)">
 					<option value="0">- Display All -</option>
-					<option value="1">- PresidentElectByYearAndStatePO -</option>
+					<option value="1">- ByYearAndStatePO -</option>
+          <option value="2">- ByCandidateVotesAndYears -</option>
 				</select>
 			</div>
 		</div>
@@ -32,21 +33,29 @@
 						<button type="button" class="btn btn-primary"
 							(click)="byYearAndState(Year.value, StatePO.value)">Search</button>
 					</div>
-				</div>				
+				</div>
 			</div>
 			<div class="md-form" *ngIf="filterId == 2">
 				<div class="row">
 					<div class="col-sm">
-						<input #minMag mdbInput type="text" id="form1" class="form-control">
-						<label for="form1" class="">Year </label>
+						<input #startVote mdbInput type="text" id="form1" class="form-control">
+						<label for="form1" class="">startVote </label>
 					</div>
 					<div class="col-sm">
-						<input #maxMag mdbInput type="text" id="form1" class="form-control">
-						<label for="form1" class="">State </label>
+						<input #endVote mdbInput type="text" id="form1" class="form-control">
+						<label for="form1" class="">endVote </label>
 					</div>
-					<div class="col-sm">
+          <div class="col-sm">
+            <input #startYear mdbInput type="text" id="form1" class="form-control">
+            <label for="form1" class="">startYear </label>
+          </div>
+          <div class="col-sm">
+            <input #endYear mdbInput type="text" id="form1" class="form-control">
+            <label for="form1" class="">endYear </label>
+          </div>
+          <div class="col-sm">
 						<button type="button" class="btn btn-primary"
-							(click)="magAndTime(minMag.value, maxMag.value, minTime.value, maxTime.value)">Search</button>
+							(click)="byCandidateVotesAndYears(startVote.value, endVote.value, startYear.value, endYear.value)">Search</button>
 					</div>
 
 				</div>
